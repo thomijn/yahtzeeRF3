@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { lazy, Suspense } from 'react';
+import { Grid, Button } from '@material-ui/core'
+import { useStore } from './store';
+import ScoreSheet from './ScoreSheet';
+const Canvas = lazy(() => import("./Canvas"))
 
 function App() {
+  let { setReroll, amountRolled, setAmountRolled, dices } = useStore()
+  console.log(dices)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+      <Suspense fallback={<h1>loading</h1>}>
+        <Canvas />
+      </Suspense>
+
+      <ScoreSheet />
+
+      {/* <div className='parent'>
+        <div className='title'>
+          <h1>okee</h1>
+          <p>enen</p>
+        </div>
+      </div> */}
+
+      <Grid style={{ position: 'absolute', bottom: 100, right: 100, width: '400px' }}>
+        <Button disabled={amountRolled === 2} onClick={() => {
+          setReroll(true)
+          setAmountRolled(amountRolled += 1)
+        }} fullWidth variant='contained'>
+          Reroll
+        </Button>
+      </Grid>
+
+    </>
+  )
 }
 
 export default App;
