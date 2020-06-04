@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-import rollSoundSFX from '../assets/dice.mp3'
-import clamp from "lodash-es/clamp"
+// import rollSoundSFX from '../assets/dice.mp3'
+// import clamp from "lodash-es/clamp"
 
 const initial = {
     aces: 0,
@@ -64,7 +64,7 @@ export const [useScore] = create((set, get, ) => ({
     }
 }))
 
-const rollSound = new Audio(rollSoundSFX)
+// const rollSound = new Audio(rollSoundSFX)
 
 export const [useStore, api] = create(
     devtools((set, get) => {
@@ -105,9 +105,9 @@ export const [useStore, api] = create(
             },
             api: {
                 roll(velocity) {
-                    rollSound.currentTime = 0
-                    rollSound.volume = clamp(velocity / 20, 0, 1) + 0.1
-                    rollSound.play()
+                    // rollSound.currentTime = 0
+                    // rollSound.volume = clamp(velocity / 20, 0, 1) + 0.1
+                    // rollSound.play()
                 }
             },
             amountRolled: 0,
