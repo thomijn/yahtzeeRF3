@@ -1,36 +1,37 @@
-import React, { lazy, Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import { Grid, Button } from '@material-ui/core'
-import { useStore } from './store';
-import ScoreSheet from './ScoreSheet';
-const Canvas = lazy(() => import("./Canvas"))
+import { useStore, useScore } from './store';
+import { calculatePossibleScores, calculateTotal, gameEnd } from './gamefunctions/calculateScores';
+import Canvas from './three/Canvas';
 
 function App() {
-  let { setReroll, amountRolled, setAmountRolled, dices } = useStore()
-  console.log(dices)
+  let amountRolled = useStore(state => state.amountRolled)
+  const setPossibleScores = useScore(state => state.setPossibleScores)
+
+  const diceOne = useStore(state => state.diceOne)
+  const diceTwo = useStore(state => state.diceTwo)
+  const diceThree = useStore(state => state.diceThree)
+  const diceFour = useStore(state => state.diceFour)
+  const diceFive = useStore(state => state.diceFive)
+  const setGamePhase = useStore(state => state.setGamePhase)
+  const currentScores = useScore(state => state.currentScores)
+  const possibleScoresCalculation = useStore(state => state.possibleScoresCalculation)
+  const setTotalScores = useScore(state => state.setTotalScores)
+  const scoreCount = useScore(state => state.scoreCount)
+
+  useEffect(() => {
+    const goodDices = [diceOne, diceTwo, diceThree, diceFour, diceFive]
+    if (possibleScoresCalculation) setPossibleScores(calculatePossibleScores(goodDices))
+    console.log(possibleScoresCalculation)
+    setTotalScores(calculateTotal(currentScores))
+    if (gameEnd(scoreCount)) setGamePhase('Restart')
+  })
+
   return (
     <>
       <Suspense fallback={<h1>loading</h1>}>
         <Canvas />
       </Suspense>
-
-      <ScoreSheet />
-
-      {/* <div className='parent'>
-        <div className='title'>
-          <h1>okee</h1>
-          <p>enen</p>
-        </div>
-      </div> */}
-
-      <Grid style={{ position: 'absolute', bottom: 100, right: 100, width: '400px' }}>
-        <Button disabled={amountRolled === 2} onClick={() => {
-          setReroll(true)
-          setAmountRolled(amountRolled += 1)
-        }} fullWidth variant='contained'>
-          Reroll
-        </Button>
-      </Grid>
-
     </>
   )
 }
