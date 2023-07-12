@@ -14,7 +14,7 @@
     "lodash-es": "^4.17.15",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "react-spring": "^9.0.0-rc.3",
     "react-three-fiber": "^4.2.7",
     "three": "^0.117.0",
